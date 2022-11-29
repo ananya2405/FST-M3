@@ -1,0 +1,29 @@
+version: '3'
+services:
+    # Postgres container
+    postgres:
+        image: 'postgres:latest'
+        environment:
+            - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_DB=simple_blog_api
+
+    
+    # api container
+    api:
+        depends_on:
+          - postgres
+        image: budu123/simple_blog_api
+        build: 
+            context: ./simple_blog_api_ts-master
+            dockerfile: Dockerfile.prod
+        ports:
+            - '3000:3000'
+        environment:
+            - POSTGRES_USERNAME=postgres
+            - POSTGRES_HOST=postgres
+            - POSTGRES_DB=simple_blog_api
+            - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_PORT=5432
+
+
+ 
